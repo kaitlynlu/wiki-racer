@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": [
+        "src",
+        ".idea",
+        ".vscode"
+    ],
+    "java.classPath": ["${workspaceFolder}/lib/<jsoup-1.15.4.jar>"]
+}
