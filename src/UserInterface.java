@@ -144,7 +144,7 @@ class UserInterface extends JFrame implements ActionListener
                     label = "they performed the same!";
                 }
 
-                JLabel heading = new JLabel("BFS took " + firstSize + " links.\n DFS took " + secondSize + " links\m" +
+                JLabel heading = new JLabel("BFS took " + firstSize + " links.\n DFS took " + secondSize + " links\n" +
                         "Therefore, " + label);
                 c.fill = GridBagConstraints.HORIZONTAL;
                 c.gridwidth = 3;
