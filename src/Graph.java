@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Graph {
     HashMap<String, ArrayList<String>> graph;
 
-    public Graph(int n) {
+    public Graph() {
         graph = new HashMap<>();
 
     }
@@ -35,5 +35,6 @@ public class Graph {
         }
         return graph.get(u);
     }
+
 
 }
