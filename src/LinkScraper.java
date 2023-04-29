@@ -4,6 +4,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.parser.Parser;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class LinkScraper {
         this.baseURL = base;
         this.output = new ArrayList<String>();
         try {
-            this.currentDoc = Jsoup.connect(this.baseURL).get();
+            this.currentDoc = Jsoup.parse(new URL(this.baseURL).openStream(), "ISO-8859-1", this.baseURL);
+//            this.currentDoc = Jsoup.connect(this.baseURL).get();
 
         } catch (IOException e) {
             System.out.println("URL not found");
