@@ -7,10 +7,12 @@ import java.util.List;
 class UserInterface extends JFrame implements ActionListener
 {
     //initialize button, panel, label, and text field
-    JButton b1;
-    JPanel newPanel;
+    JButton b1, b2, b3;
+    JPanel newPanel, buttonPanel;
     JLabel firstLabel, endLabel;
     final JTextField  textField1, textField2;
+    boolean first, second;
+    int firstSize, secondSize;
 
     //calling constructor
     UserInterface()
@@ -28,7 +30,11 @@ class UserInterface extends JFrame implements ActionListener
         textField2 = new JTextField(15);
 
         //create submit button
-        b1 = new JButton("GO!"); //set label to button
+        b1 = new JButton("Try with BFS!"); //set label to button
+        b2 = new JButton("Try with DFS!"); //set label to button
+        b3 = new JButton("Compare!"); //set label to button
+        JPanel mainPanel = new JPanel();
+
 
         //create panel to put form elements
         newPanel = new JPanel(new GridLayout(3, 1));
@@ -36,13 +42,21 @@ class UserInterface extends JFrame implements ActionListener
         newPanel.add(textField1);   //set text field to panel
         newPanel.add(endLabel);    //set password label to panel
         newPanel.add(textField2);   //set text field to panel
-        newPanel.add(b1);           //set button to panel
+        buttonPanel = new JPanel(new GridLayout(1, 3));
+
+        buttonPanel.add(b1);
+        buttonPanel.add(b2);
+        buttonPanel.add(b3);  //set button to panel
 
         //set border to panel
-        add(newPanel, BorderLayout.CENTER);
+        mainPanel.add(newPanel);
+        mainPanel.add(buttonPanel);
+        add(mainPanel);
 
         //perform action on button click
-        b1.addActionListener(this);     //add action listener to button
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this); //add action listener to button
         setTitle("BaconPedia");         //set title to the login form
     }
 
@@ -50,61 +64,103 @@ class UserInterface extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent ae)     //pass action listener as a parameter
     {
         String firstLink = textField1.getText();        //get user entered first link from the textField1
-        String secondLink = textField2.getText();        //get user entered second link from the textField2
-        BFS b = new BFS();
-        List<String> linksBFS = b.runBFS(firstLink, secondLink);
+        String secondLink = textField2.getText();
+        //get user entered second link from the textField2
 
-//        DFS dfs = new DFS();
-//        List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
+        if (ae.getSource() == b1) {
+            first = true;
+            BFS b = new BFS();
+            List<String> linksBFS = b.runBFS(firstLink, secondLink);
 
-        DisplayResults d = new DisplayResults();
-        d.setVisible(true);
-        JPanel panel = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+            DisplayResultsBFS d = new DisplayResultsBFS();
+            d.setVisible(true);
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
 
-        JLabel heading = new JLabel("heading");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = 3;
-        panel.add(heading, c);
-
-//        JLabel title1 = new JLabel("kjhkjhkjh " );
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridx = 2;
-//        c.gridy = 1;
-//        panel.add(title1, c);
-
-        if (linksBFS.size() > 0) {
-            JLabel title = new JLabel("It took " + linksBFS.size() + " links to get from the start to the end!");
+            JLabel heading = new JLabel("heading");
             c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridx = 0;
-            c.gridy = 1;
+            c.gridwidth = 3;
+            panel.add(heading, c);
 
-            panel.add(title, c);
-            int y = 2;
-
-            for (String l : linksBFS) {
-                JLabel res = new JLabel(l);
+            if (linksBFS.size() > 0) {
+                JLabel title = new JLabel("It took " + linksBFS.size() + " links to get from the start to the end!");
                 c.fill = GridBagConstraints.HORIZONTAL;
                 c.gridx = 0;
-                c.gridy = y;
+                c.gridy = 1;
 
-                y += 1;
-                panel.add(res , c);
+                panel.add(title, c);
+                int y = 2;
+
+                for (String l : linksBFS) {
+                    JLabel res = new JLabel(l);
+                    c.fill = GridBagConstraints.HORIZONTAL;
+                    c.gridx = 0;
+                    c.gridy = y;
+
+                    y += 1;
+                    panel.add(res , c);
+                }
+            } else {
+                JLabel title = new JLabel("We could not find the link in the given constraints");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 1;
+                c.gridwidth = 200;
+                panel.add(title, c);
             }
-        } else {
-            JLabel title = new JLabel("We could not find the link in the given constraints");
-            c.fill = GridBagConstraints.HORIZONTAL;
-            c.gridx = 0;
-            c.gridy = 1;
-            c.gridwidth = 200;
-            panel.add(title, c);
+            d.getContentPane().add(panel);
+
         }
 
+        else if (ae.getSource() == b2) {
+            second = true;
+//
+//            DFS dfs = new DFS();
+//            List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
 
-        d.getContentPane().add(panel);
+            DisplayResultsDFS d = new DisplayResultsDFS();
+            d.setVisible(true);
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
 
+            JLabel heading = new JLabel("heading");
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridwidth = 3;
+            panel.add(heading, c);
+            d.getContentPane().add(panel);
+        } else {
+            DisplayComparison d = new DisplayComparison();
+            d.setVisible(true);
+            if (first && second) {
 
+                JPanel panel = new JPanel(new GridBagLayout());
+                GridBagConstraints c = new GridBagConstraints();
+                String label = "";
+                if (firstSize > secondSize) {
+                    label = "DFS performed better";
+                } else if (firstSize < secondSize) {
+                    label = "BFS performed better";
+                } else {
+                    label = "they performed the same!";
+                }
 
+                JLabel heading = new JLabel("BFS took " + firstSize + " links.\n DFS took " + secondSize + " links\m" +
+                        "Therefore, " + label);
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridwidth = 3;
+                panel.add(heading, c);
+                d.getContentPane().add(panel);
+            } else {
+                JPanel panel = new JPanel(new GridBagLayout());
+                GridBagConstraints c = new GridBagConstraints();
+
+                JLabel heading = new JLabel("Must try with BFS AND DFS first before comparing!");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridwidth = 3;
+                panel.add(heading, c);
+                d.getContentPane().add(panel);
+            }
+        }
     }
 
 //create the main class
@@ -116,7 +172,7 @@ class UserInterface extends JFrame implements ActionListener
         {
 
             UserInterface form = new UserInterface();
-            form.setSize(300,100);  //set size of the frame
+            form.setSize(500,200);  //set size of the frame
             form.setVisible(true);  //make form visible to the user
         }
         catch(Exception e)
