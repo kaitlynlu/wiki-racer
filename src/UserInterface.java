@@ -60,7 +60,9 @@ class UserInterface extends JFrame implements ActionListener
         d.setVisible(true);
 
         JLabel title = new JLabel("It took " + links.size() + " links to get from the start to the end!");
+
         JPanel panel = new JPanel(new GridLayout(0, 1)); //use gridlayout
+        panel.add(title);
         for (String l : links) {
             JLabel res = new JLabel(l);
             panel.add(res);

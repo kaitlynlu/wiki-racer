@@ -6,6 +6,6 @@ public class DisplayResults extends JFrame {
         setDefaultCloseOperation(javax.swing.
                 WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Results!");
-        setSize(500, 800);
+        setSize(500, 600);
     }
 }
