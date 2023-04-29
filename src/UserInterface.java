@@ -4,9 +4,6 @@ import java.awt.event.*;
 import java.lang.Exception;
 import java.util.List;
 
-//create CreateLoginForm class to create login form
-//class extends JFrame to create a window where our component add
-//class implements ActionListener to perform an action on button click
 class UserInterface extends JFrame implements ActionListener
 {
     //initialize button, panel, label, and text field
@@ -55,18 +52,55 @@ class UserInterface extends JFrame implements ActionListener
         String firstLink = textField1.getText();        //get user entered first link from the textField1
         String secondLink = textField2.getText();        //get user entered second link from the textField2
         BFS b = new BFS();
-        List<String> links = b.runBFS(firstLink, secondLink);
+        List<String> linksBFS = b.runBFS(firstLink, secondLink);
+
+//        DFS dfs = new DFS();
+//        List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
+
         DisplayResults d = new DisplayResults();
         d.setVisible(true);
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        JLabel title = new JLabel("It took " + links.size() + " links to get from the start to the end!");
+        JLabel heading = new JLabel("heading");
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridwidth = 3;
+        panel.add(heading, c);
 
-        JPanel panel = new JPanel(new GridLayout(0, 1)); //use gridlayout
-        panel.add(title);
-        for (String l : links) {
-            JLabel res = new JLabel(l);
-            panel.add(res);
+//        JLabel title1 = new JLabel("kjhkjhkjh " );
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.gridx = 2;
+//        c.gridy = 1;
+//        panel.add(title1, c);
+
+        if (linksBFS.size() > 0) {
+            JLabel title = new JLabel("It took " + linksBFS.size() + " links to get from the start to the end!");
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 1;
+
+            panel.add(title, c);
+            int y = 2;
+
+            for (String l : linksBFS) {
+                JLabel res = new JLabel(l);
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = y;
+
+                y += 1;
+                panel.add(res , c);
+            }
+        } else {
+            JLabel title = new JLabel("We could not find the link in the given constraints");
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = 0;
+            c.gridy = 1;
+            c.gridwidth = 200;
+            panel.add(title, c);
         }
+
+
         d.getContentPane().add(panel);
 
 
@@ -80,7 +114,7 @@ class UserInterface extends JFrame implements ActionListener
     {
         try
         {
-            //create instance of the CreateLoginForm
+
             UserInterface form = new UserInterface();
             form.setSize(300,100);  //set size of the frame
             form.setVisible(true);  //make form visible to the user

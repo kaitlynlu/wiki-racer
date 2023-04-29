@@ -5,11 +5,13 @@ class BFS {
     Graph graph;
     Map<String, String> parent;
     Set<String> visited;
+    boolean found;
     public BFS () {
         this.queue = new LinkedList<>();
         this.graph = new Graph();
         this.parent = new HashMap<>();
         this.visited = new HashSet<>();
+        this.found = false;
     }
     public List<String> runBFS(String inLink, String finalLink) {
         this.queue.add(inLink);
@@ -28,6 +30,7 @@ class BFS {
                     this.visited.add(linkCurr);
                 }
                 if (linkCurr.equals(finalLink)) {
+                    found = true;
                     this.queue.clear();
                     break;
                 }
@@ -40,7 +43,10 @@ class BFS {
             shortestPath.add(getPath);
             getPath = this.parent.get(getPath);
         }
-        shortestPath.add(inLink);
+        if (found) {
+            shortestPath.add(inLink);
+        }
+
         Collections.reverse(shortestPath);
         for (String s : shortestPath) {
             System.out.println(s);

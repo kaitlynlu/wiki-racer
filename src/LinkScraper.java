@@ -1,10 +1,10 @@
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.parser.Parser;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +26,7 @@ public class LinkScraper {
         this.baseURL = base;
         this.output = new ArrayList<String>();
         try {
-            this.currentDoc = Jsoup.parse(new URL(this.baseURL).openStream(), "ISO-8859-1", this.baseURL);
-//            this.currentDoc = Jsoup.connect(this.baseURL).get();
+            this.currentDoc = Jsoup.connect(this.baseURL).get();
 
         } catch (IOException e) {
             System.out.println("URL not found");
@@ -37,19 +36,23 @@ public class LinkScraper {
     public ArrayList<String> getLinks() {
         Elements divs = currentDoc.select("#mw-content-text");
         Element div = divs.get(0);
-        int limit = 100;
+        int limit = 50;
         List<Element> links = div.select("a[href^='/wiki/']");
         for (int i = 0; i < limit && i < links.size(); i++) {
             Element link = links.get(i);
-            String validLink = "https://en.wikipedia.org" + link.attr("href");
-//            System.out.println(validLink);
-            output.add(validLink);
+            String l = link.attr("href");
+            if (l.length() > 13 && !l.substring(6,13).equals("Special")) {
+                String validLink = "https://en.wikipedia.org" + l;
+                output.add(validLink);
+            } else {
+                limit++;
+            }
         }
         return output;
     }
 
     public static void main(String[] args) {
-//        LinkScraper l = new LinkScraper("https://en.wikipedia.org/wiki/Harvard_Business_School");
-//        System.out.println(l.getLinks());
+        LinkScraper l = new LinkScraper("https://en.wikipedia.org/wiki/Barack_Obama");
+        System.out.println(l.getLinks());
     }
 }
