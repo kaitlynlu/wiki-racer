@@ -11,7 +11,7 @@ class BFS {
         this.parent = new HashMap<>();
         this.visited = new HashSet<>();
     }
-    public void runBFS(String inLink, String finalLink) {
+    public List<String> runBFS(String inLink, String finalLink) {
         this.queue.add(inLink);
         while (!this.queue.isEmpty()) {
             String curr = this.queue.remove();
@@ -45,6 +45,7 @@ class BFS {
         for (String s : shortestPath) {
             System.out.println(s);
         }
+        return shortestPath;
     }
 
 
