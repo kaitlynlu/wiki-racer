@@ -15,6 +15,7 @@ public class DFS {
     }
 
     public List<String> runDFS(String inLink, String finalLink) {
+        boolean found = false;
         this.stack.push(inLink);
         this.countLevel.put(inLink, 0);
         while (!this.stack.isEmpty()) {
@@ -46,6 +47,7 @@ public class DFS {
                             this.countLevel.put(linkCurr, getCurrLevel+1);
                         }
                         if (linkCurr.equals(finalLink)) {
+                            found = true;
                             this.stack.clear();
                             break;
                         }
@@ -64,7 +66,7 @@ public class DFS {
             shortestPath.add(getPath);
             getPath = this.parent.get(getPath);
         }
-        if (this.parent.containsKey(getPath)) {
+        if (found) {
             shortestPath.add(inLink);
         }
 

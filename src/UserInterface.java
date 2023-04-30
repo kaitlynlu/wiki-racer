@@ -13,6 +13,7 @@ class UserInterface extends JFrame implements ActionListener
     final JTextField  textField1, textField2;
     boolean first, second;
     int firstSize, secondSize;
+    long timeElapsed1, timeElapsed2;
 
     //calling constructor
     UserInterface()
@@ -70,26 +71,36 @@ class UserInterface extends JFrame implements ActionListener
         if (ae.getSource() == b1) {
             first = true;
             BFS b = new BFS();
+            long start = System.currentTimeMillis();
             List<String> linksBFS = b.runBFS(firstLink, secondLink);
+            long finish = System.currentTimeMillis();
+            timeElapsed1 = (finish - start) / 1000;
 
             DisplayResultsBFS d = new DisplayResultsBFS();
             d.setVisible(true);
             JPanel panel = new JPanel(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
 
-            JLabel heading = new JLabel("heading");
+            JLabel heading = new JLabel("We ran BFS to go from the starting link to the ending link");
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridwidth = 3;
             panel.add(heading, c);
 
             if (linksBFS.size() > 0) {
+                firstSize = linksBFS.size();
                 JLabel title = new JLabel("It took " + linksBFS.size() + " links to get from the start to the end!");
                 c.fill = GridBagConstraints.HORIZONTAL;
                 c.gridx = 0;
                 c.gridy = 1;
-
                 panel.add(title, c);
-                int y = 2;
+                JLabel s = new JLabel("It took " + timeElapsed1 + " seconds to get there");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 2;
+                panel.add(s, c);
+
+
+                int y = 3;
 
                 for (String l : linksBFS) {
                     JLabel res = new JLabel(l);
@@ -114,20 +125,57 @@ class UserInterface extends JFrame implements ActionListener
 
         else if (ae.getSource() == b2) {
             second = true;
-//
-//            DFS dfs = new DFS();
-//            List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
+            long start = System.currentTimeMillis();
+            DFS dfs = new DFS();
+            List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
+            long finish = System.currentTimeMillis();
+            timeElapsed2 = (finish - start) / 1000;
 
             DisplayResultsDFS d = new DisplayResultsDFS();
             d.setVisible(true);
             JPanel panel = new JPanel(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
 
-            JLabel heading = new JLabel("heading");
+            JLabel heading = new JLabel("We ran DFS to go from the starting link to the ending link");
             c.fill = GridBagConstraints.HORIZONTAL;
             c.gridwidth = 3;
             panel.add(heading, c);
+
+            if (linksDFS.size() > 0) {
+                secondSize=linksDFS.size();
+                JLabel title = new JLabel("It took " + linksDFS.size() + " links to get from the start to the end!");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 1;
+                panel.add(title, c);
+                JLabel s = new JLabel("It took " + timeElapsed2 + " seconds to get there");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 2;
+                panel.add(s, c);
+
+
+                int y = 3;
+
+                for (String l : linksDFS) {
+                    JLabel res = new JLabel(l);
+                    c.fill = GridBagConstraints.HORIZONTAL;
+                    c.gridx = 0;
+                    c.gridy = y;
+
+                    y += 1;
+                    panel.add(res , c);
+                }
+            } else {
+                JLabel title = new JLabel("We could not find the link in the given constraints");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 1;
+                c.gridwidth = 200;
+                panel.add(title, c);
+            }
             d.getContentPane().add(panel);
+
         } else {
             DisplayComparison d = new DisplayComparison();
             d.setVisible(true);
@@ -136,19 +184,67 @@ class UserInterface extends JFrame implements ActionListener
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints c = new GridBagConstraints();
                 String label = "";
-                if (firstSize > secondSize) {
+                if ((firstSize > secondSize) && secondSize > 0) {
                     label = "DFS performed better";
-                } else if (firstSize < secondSize) {
+                } else if ((firstSize < secondSize) && firstSize > 0) {
                     label = "BFS performed better";
                 } else {
                     label = "they performed the same!";
                 }
+                String numBFS = "";
+                if (firstSize > 0) {
+                    numBFS = "BFS took " + firstSize + " links.";
+                } else {
+                    numBFS = "BFS could not find the solution.";
+                }
 
-                JLabel heading = new JLabel("BFS took " + firstSize + " links.\n DFS took " + secondSize + " links\n" +
-                        "Therefore, " + label);
+                String numDFS = "";
+                if (secondSize > 0) {
+                    numDFS = "DFS took " + secondSize + " links.";
+                } else {
+                    numDFS = "DFS could not find the solution.";
+                }
+
+                JLabel heading = new JLabel(numBFS + " " + numDFS);
+
                 c.fill = GridBagConstraints.HORIZONTAL;
                 c.gridwidth = 3;
                 panel.add(heading, c);
+
+                JLabel res = new JLabel("Therefore, " + label);
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 1;
+                panel.add(res, c);
+
+                JLabel blank = new JLabel("   ");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 2;
+                panel.add(blank, c);
+
+                String label2 = "";
+                if (timeElapsed1 > timeElapsed2) {
+                    label2 = "DFS performed better";
+                } else if (timeElapsed1 < timeElapsed2) {
+                    label2 = "BFS performed better";
+                } else {
+                    label2 = "they performed the same!";
+                }
+
+                JLabel heading2 = new JLabel("BFS took " + timeElapsed1 + " seconds. DFS took " + timeElapsed2 + " seconds");
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 3;
+                c.gridwidth = 3;
+                panel.add(heading2, c);
+                JLabel res2 = new JLabel("Therefore, " +label2);
+                c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridx = 0;
+                c.gridy = 4;
+                c.gridwidth = 3;
+                panel.add(res2, c);
+
                 d.getContentPane().add(panel);
             } else {
                 JPanel panel = new JPanel(new GridBagLayout());
