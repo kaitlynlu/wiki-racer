@@ -17,7 +17,7 @@ public class DFS {
     public List<String> runDFS(String inLink, String finalLink) {
         long startTime = System.currentTimeMillis();
         long elapsedTime = 0;
-        long maxTime = 10000;
+        long maxTime = 180000;
         boolean found = false;
         this.stack.push(inLink);
 

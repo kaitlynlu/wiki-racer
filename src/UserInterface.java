@@ -27,11 +27,10 @@ class UserInterface extends JFrame implements ActionListener
                 "We will then construct a path from the first link to the ending link using only " +
                 "other wikipedia links accessible from the page you are on!\n\n" +
                 "Try with BFS will do this task with BFS and Try with DFS will do this task with DFS.\n" +
-                "You can compare the results of the two by clicking Compare!", 10, 50);
+                "You can compare the results of the two by clicking Compare.\n" +
+                "There is a time limit of 3 minutes on each - just like a typical wikiracer game!", 10, 50);
         JScrollPane scrollPane = new JScrollPane(instr);
         instructions.add(scrollPane);
-
-
 
         JButton start = new JButton("Start"); //set label to button
         start.addActionListener(new ActionListener() {
@@ -152,7 +151,7 @@ class UserInterface extends JFrame implements ActionListener
                 long start = System.currentTimeMillis();
                 List<String> linksBFS = b.runBFS(firstLink, secondLink);
                 long finish = System.currentTimeMillis();
-                timeElapsed1 = (finish - start) / 1000;
+                timeElapsed1 = (finish - start);
 
 
                 JPanel panel = new JPanel(new GridBagLayout());
@@ -170,7 +169,7 @@ class UserInterface extends JFrame implements ActionListener
                     c.gridx = 0;
                     c.gridy = 1;
                     panel.add(title, c);
-                    JLabel s = new JLabel("It took " + timeElapsed1 + " seconds to get there");
+                    JLabel s = new JLabel("It took " + timeElapsed1 + " ms to get there");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridx = 0;
                     c.gridy = 2;
@@ -208,7 +207,7 @@ class UserInterface extends JFrame implements ActionListener
                 DFS dfs = new DFS();
                 List<String> linksDFS = dfs.runDFS(firstLink, secondLink);
                 long finish = System.currentTimeMillis();
-                timeElapsed2 = (finish - start) / 1000;
+                timeElapsed2 = (finish - start);
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints c = new GridBagConstraints();
@@ -225,7 +224,7 @@ class UserInterface extends JFrame implements ActionListener
                     c.gridx = 0;
                     c.gridy = 1;
                     panel.add(title, c);
-                    JLabel s = new JLabel("It took " + timeElapsed2 + " seconds to get there");
+                    JLabel s = new JLabel("It took " + timeElapsed2 + " ms to get there");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridx = 0;
                     c.gridy = 2;
@@ -309,7 +308,7 @@ class UserInterface extends JFrame implements ActionListener
                         label2 = "they performed the same!";
                     }
 
-                    JLabel heading2 = new JLabel("BFS took " + timeElapsed1 + " seconds. DFS took " + timeElapsed2 + " seconds");
+                    JLabel heading2 = new JLabel("BFS took " + timeElapsed1 + " ms. DFS took " + timeElapsed2 + " ms");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridx = 0;
                     c.gridy = 3;
@@ -353,3 +352,7 @@ class UserInterface extends JFrame implements ActionListener
         }
     }
 }
+
+//TODO: make the result page scrollable
+//TODO: test the time limit
+//TODO: can't compare if the link changes

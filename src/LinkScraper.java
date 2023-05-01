@@ -26,7 +26,7 @@ public class LinkScraper {
         this.baseURL = base;
         this.output = new ArrayList<String>();
         try {
-            this.currentDoc = Jsoup.connect(this.baseURL).get();
+            this.currentDoc = Jsoup.parse(new URL(this.baseURL).openStream(), "ISO-8859-1", this.baseURL);
 
         } catch (IOException e) {
             System.out.println("URL not found");
