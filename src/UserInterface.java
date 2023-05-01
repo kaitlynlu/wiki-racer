@@ -135,6 +135,8 @@ class UserInterface extends JFrame implements ActionListener
         b1.setEnabled(enable && startsWith);
         b2.setEnabled(enable && startsWith);
         b3.setEnabled(enable && startsWith);
+        first = false;
+        second = false;
     }
 
     //define abstract method actionPerformed() which will be called on button click
@@ -144,6 +146,7 @@ class UserInterface extends JFrame implements ActionListener
         String secondLink = textField2.getText();
 
             if (ae.getSource() == b1) {
+
                 DisplayResultsBFS d = new DisplayResultsBFS();
                 d.setVisible(true);
                 first = true;
@@ -152,7 +155,6 @@ class UserInterface extends JFrame implements ActionListener
                 List<String> linksBFS = b.runBFS(firstLink, secondLink);
                 long finish = System.currentTimeMillis();
                 timeElapsed1 = (finish - start);
-
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints c = new GridBagConstraints();
@@ -174,9 +176,14 @@ class UserInterface extends JFrame implements ActionListener
                     c.gridx = 0;
                     c.gridy = 2;
                     panel.add(s, c);
+                    JLabel div = new JLabel("-----------------------------------------");
+                    c.fill = GridBagConstraints.HORIZONTAL;
+                    c.gridx = 0;
+                    c.gridy = 3;
+                    panel.add(div, c);
 
 
-                    int y = 3;
+                    int y = 4;
 
                     for (String l : linksBFS) {
                         JLabel res = new JLabel(l);
@@ -187,17 +194,21 @@ class UserInterface extends JFrame implements ActionListener
                         y += 1;
                         panel.add(res, c);
                     }
+                    JScrollPane scrollPane = new JScrollPane(panel);
+                    scrollPane.setVerticalScrollBarPolicy(
+                            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    d.getContentPane().add(scrollPane);
                 } else {
-                    JLabel title = new JLabel("We could not find the link in the given constraints");
+
+                    JLabel title = new JLabel("We could not find the link in the given time limit");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridx = 0;
                     c.gridy = 1;
                     c.gridwidth = 200;
                     panel.add(title, c);
+                    d.getContentPane().add(panel);
+
                 }
-
-                d.getContentPane().add(panel);
-
 
             } else if (ae.getSource() == b2) {
                 DisplayResultsDFS d = new DisplayResultsDFS();
@@ -229,9 +240,14 @@ class UserInterface extends JFrame implements ActionListener
                     c.gridx = 0;
                     c.gridy = 2;
                     panel.add(s, c);
+                    JLabel div = new JLabel("-----------------------------------------");
+                    c.fill = GridBagConstraints.HORIZONTAL;
+                    c.gridx = 0;
+                    c.gridy = 3;
+                    panel.add(div, c);
 
 
-                    int y = 3;
+                    int y = 4;
 
                     for (String l : linksDFS) {
                         JLabel res = new JLabel(l);
@@ -242,15 +258,20 @@ class UserInterface extends JFrame implements ActionListener
                         y += 1;
                         panel.add(res, c);
                     }
+                    JScrollPane scrollPane = new JScrollPane(panel);
+                    scrollPane.setVerticalScrollBarPolicy(
+                            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                    d.getContentPane().add(scrollPane);
                 } else {
-                    JLabel title = new JLabel("We could not find the link in the given constraints");
+                    JLabel title = new JLabel("We could not find the link in the given time limit");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridx = 0;
                     c.gridy = 1;
                     c.gridwidth = 200;
                     panel.add(title, c);
+                    d.getContentPane().add(panel);
                 }
-                d.getContentPane().add(panel);
+
 
             } else {
                 DisplayComparison d = new DisplayComparison();
@@ -323,7 +344,7 @@ class UserInterface extends JFrame implements ActionListener
 
                 } else {
 
-                    JLabel heading = new JLabel("Must try with BFS AND DFS first before comparing!");
+                    JLabel heading = new JLabel("Must try with BFS AND DFS first (with the same set of links) before comparing!");
                     c.fill = GridBagConstraints.HORIZONTAL;
                     c.gridwidth = 3;
                     panel.add(heading, c);
@@ -353,6 +374,3 @@ class UserInterface extends JFrame implements ActionListener
     }
 }
 
-//TODO: make the result page scrollable
-//TODO: test the time limit
-//TODO: can't compare if the link changes

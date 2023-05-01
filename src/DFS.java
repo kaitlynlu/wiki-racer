@@ -31,6 +31,10 @@ public class DFS {
                  if (!this.visited.contains(curr)) {
                      this.visited.add(curr);
                      for (String linkCurr : listLinks) {
+                         elapsedTime = System.currentTimeMillis() - startTime;
+                         if(elapsedTime >= maxTime) {
+                             break;
+                         }
                          // for each link from the start page, add it one by one to graph
                          graph.addEdge(curr, linkCurr);
                          if (!this.visited.contains(linkCurr)) {

@@ -24,8 +24,13 @@ class BFS {
             // get all the links from the current link
             LinkScraper scrape = new LinkScraper(curr);
             if(scrape.currentDoc != null) {
+
                 ArrayList<String> listLinks = scrape.getLinks();
                 for (String linkCurr: listLinks) {
+                    elapsedTime = System.currentTimeMillis() - startTime;
+                    if(elapsedTime >= maxTime) {
+                        break;
+                    }
                     // for each link from the start page, add it one by one to graph
                     graph.addEdge(curr, linkCurr);
                     if (!this.visited.contains(linkCurr)) {
@@ -39,11 +44,13 @@ class BFS {
                         break;
                     }
                 }
+                elapsedTime = System.currentTimeMillis() - startTime;
+                if(elapsedTime >= maxTime) {
+                    break;
+                }
             }
-            elapsedTime = System.currentTimeMillis() - startTime;
-            if(elapsedTime >= maxTime) {
-                break;
-            }
+
+
         }
 
         List<String> shortestPath = new ArrayList<>();
@@ -61,6 +68,7 @@ class BFS {
         for (String s : shortestPath) {
             System.out.println(s);
         }
+
         return shortestPath;
     }
 
