@@ -14,26 +14,35 @@ class BFS {
         this.found = false;
     }
     public List<String> runBFS(String inLink, String finalLink) {
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        long maxTime = 10000;
         this.queue.add(inLink);
         while (!this.queue.isEmpty()) {
             String curr = this.queue.remove();
             this.visited.add(curr);
             // get all the links from the current link
             LinkScraper scrape = new LinkScraper(curr);
-            ArrayList<String> listLinks = scrape.getLinks();
-            for (String linkCurr: listLinks) {
-                // for each link from the start page, add it one by one to graph
-                graph.addEdge(curr, linkCurr);
-                if (!this.visited.contains(linkCurr)) {
-                    this.queue.add(linkCurr);
-                    this.parent.put(linkCurr, curr);
-                    this.visited.add(linkCurr);
+            if(scrape.currentDoc != null) {
+                ArrayList<String> listLinks = scrape.getLinks();
+                for (String linkCurr: listLinks) {
+                    // for each link from the start page, add it one by one to graph
+                    graph.addEdge(curr, linkCurr);
+                    if (!this.visited.contains(linkCurr)) {
+                        this.queue.add(linkCurr);
+                        this.parent.put(linkCurr, curr);
+                        this.visited.add(linkCurr);
+                    }
+                    if (linkCurr.equals(finalLink)) {
+                        found = true;
+                        this.queue.clear();
+                        break;
+                    }
                 }
-                if (linkCurr.equals(finalLink)) {
-                    found = true;
-                    this.queue.clear();
-                    break;
-                }
+            }
+            elapsedTime = System.currentTimeMillis() - startTime;
+            if(elapsedTime >= maxTime) {
+                break;
             }
         }
 
@@ -48,6 +57,7 @@ class BFS {
         }
 
         Collections.reverse(shortestPath);
+        System.out.println("Path:");
         for (String s : shortestPath) {
             System.out.println(s);
         }

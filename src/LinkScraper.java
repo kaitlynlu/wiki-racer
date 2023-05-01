@@ -11,7 +11,7 @@ import java.util.List;
 
 public class LinkScraper {
     private String baseURL;
-    private Document currentDoc;
+    Document currentDoc;
     ArrayList<String> output;
     /**
      * Gets first 25 links (<= 25) from wikipedia page return them as a list
