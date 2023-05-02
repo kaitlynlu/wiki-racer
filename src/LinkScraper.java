@@ -15,12 +15,8 @@ public class LinkScraper {
     Document currentDoc;
     ArrayList<String> output;
     /**
-     * Gets first 25 links (<= 25) from wikipedia page return them as a list
-     * Webscraping helper function within this class:
-     * Input: a wikipedia link
-     * Output: a list of 25 /wiki/ links that they connect to
-     * Helper function to check if the link u scraped has the entire url (usually the scrapped href are just /wiki/__),
-     * if it doesn’t append it to get the whole link.
+     * Connects to the wikipedia link provided
+     * input: wikipedia link
      */
 
     public LinkScraper(String base) {
@@ -34,10 +30,15 @@ public class LinkScraper {
         }
     }
 
+    /**
+     * Gets first 75 links (<= 75) from wikipedia page return them as a list
+     * Links must be other wikipedia links
+     * @return the list of links
+     */
     public ArrayList<String> getLinks() {
         Elements divs = currentDoc.select("#mw-content-text");
         Element div = divs.get(0);
-        int limit = 50;
+        int limit = 75;
         List<Element> links = div.select("a[href^='/wiki/']");
         for (int i = 0; i < limit && i < links.size(); i++) {
             Element link = links.get(i);

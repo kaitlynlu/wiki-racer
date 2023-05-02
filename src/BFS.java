@@ -6,6 +6,7 @@ class BFS {
     Map<String, String> parent;
     Set<String> visited;
     boolean found;
+
     public BFS () {
         this.queue = new LinkedList<>();
         this.graph = new Graph();
@@ -13,6 +14,14 @@ class BFS {
         this.visited = new HashSet<>();
         this.found = false;
     }
+
+    /**
+     * runs BFS starting from the inLink and goes until we hit the finalLink or if we
+     * run out of time
+     * @param inLink
+     * @param finalLink
+     * @return list of links in the path from the inLink to the finalLink
+     */
     public List<String> runBFS(String inLink, String finalLink) {
         long startTime = System.currentTimeMillis();
         long elapsedTime = 0;
@@ -49,8 +58,6 @@ class BFS {
                     break;
                 }
             }
-
-
         }
 
         List<String> shortestPath = new ArrayList<>();
@@ -75,12 +82,7 @@ class BFS {
 
     public static void main(String[] args) {
         BFS newBfs = new BFS();
-        // this works:
         newBfs.runBFS("https://en.wikipedia.org/wiki/Barack_Obama",
                 "https://en.wikipedia.org/wiki/Economic_anthropology");
-
-        // this does not work:
-//        newBfs.runBFS("https://en.wikipedia.org/wiki/Barack_Obama",
-//                "https://en.wikipedia.org/wiki/Private_university");
     }
 }

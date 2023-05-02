@@ -5,15 +5,21 @@ public class DFS {
     Graph graph;
     Map<String, String> parent;
     Set<String> visited;
-    Map<String, Integer> countLevel;
+
     public DFS () {
         this.stack = new Stack<>();
         this.graph = new Graph();
         this.parent = new HashMap<>();
         this.visited = new HashSet<>();
-        this.countLevel = new HashMap<>();
     }
 
+    /**
+     * runs DFS starting from the inLink and goes until we hit the finalLink or if we
+     * run out of time
+     * @param inLink
+     * @param finalLink
+     * @return list of links in the path from the inLink to the finalLink
+     */
     public List<String> runDFS(String inLink, String finalLink) {
         long startTime = System.currentTimeMillis();
         long elapsedTime = 0;
@@ -65,8 +71,9 @@ public class DFS {
         if (found) {
             shortestPath.add(inLink);
         }
-
         Collections.reverse(shortestPath);
+
+        System.out.println("Path");
         for (String s : shortestPath) {
             System.out.println(s);
         }
@@ -75,12 +82,8 @@ public class DFS {
 
     public static void main(String[] args) {
         DFS newDFS = new DFS();
-        // this works:
         newDFS.runDFS("https://en.wikipedia.org/wiki/Barack_Obama",
                 "https://en.wikipedia.org/wiki/Economic_anthropology");
-
-        // this does not work:
-//        newDFS.runDFS("https://en.wikipedia.org/wiki/Barack_Obama",
-//                "https://en.wikipedia.org/wiki/Private_university");
     }
+
 }
