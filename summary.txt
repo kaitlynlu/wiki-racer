@@ -1,0 +1,30 @@
+summary.txt
+NETS 1500 Final Project
+Project Name: BaconPedia
+Group Members: Kavya Ravishankar, Kaitlyn Lu, Chelsea Pan
+
+Our project – BaconPedia – allows users to traverse Wikipedia pages using links on each page.
+Users enter a start and ending page, and the program uses BFS and DFS to find the fastest way to
+reach one page from the other only using other Wikipedia links on the page. The program
+additionally returns the amount of time it took to reach the target page and the path it traversed
+to get there. There is an additional ‘Compare’ functionality that allows users to find the
+difference between finding the connection using BFS or DFS. We implemented a limit of 3 minutes
+and only scraped 75 links per page to mimic a real WikiRacer game since there is typically a time
+limit and people are not able to click every single link on the page.
+
+This Implementation project utilized several concepts from the provided list including Graph and
+Graph Algorithms, Information Networks (World Wide Web), and Document Networks
+(Information Retrieval). Since this project involved retrieving information from Wikipedia pages
+on the internet, using the links retrieved to go to new Wikipedia pages, and accessing other
+web scraping tools we learned in class, we satisfied the Information Networks and Document
+Networks categories. The project then involves dynamically building a tree with nodes represented
+by links and edges representing which links are found on which other link’s page. The tree is then
+traversed using both BFS and DFS search algorithms, satisfying the Graph and Graph Algorithms
+category.
+
+The work was broken down by the various classes that comprised the overall project. The main
+components of the code include the classes Graph, BFS, DFS, LinkScraper, UserInterface,
+DisplayResults, and Documentation. While we all contributed to help debug and merge each others’
+code, Kaitlyn primarily worked on the user interface and defining the graph structure for the
+project, Chelsea coded the BFS and DFS algorithms and did documentation, and Kavya implemented the
+link scraping part and did documentation.

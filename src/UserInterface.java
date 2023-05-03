@@ -16,6 +16,8 @@ class UserInterface extends JFrame implements ActionListener {
 
     //calling constructor
     UserInterface() {
+        setDefaultCloseOperation(javax.swing.
+                WindowConstants.DISPOSE_ON_CLOSE);
         JPanel instructions = new JPanel();
 
         final JTextArea instr = new JTextArea("Welcome to BaconPedia! \n\n"
@@ -377,10 +379,12 @@ class UserInterface extends JFrame implements ActionListener {
             UserInterface form = new UserInterface();
             form.setSize(800,250);  //set size of the frame
             form.setVisible(true);  //make form visible to the user
+
         } catch (Exception e) {
             //handle exception
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+
     }
 }
 
